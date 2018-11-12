@@ -58,6 +58,9 @@ Vagrant.configure("2") do |config|
         # Customize the amount of memory on the VM:
         vb.memory = "4096"
 
+        # Add some more CPUs
+        vb.cpus = 4
+
         # Enable USB 3.0 controller
         vb.customize ["modifyvm", :id, "--usbxhci", "on"]
     end
