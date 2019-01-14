@@ -50,6 +50,15 @@ Vagrant.configure("2") do |config|
     # config.vm.synced_folder "../data", "/vagrant_data"
     config.vm.synced_folder ".", "/vagrant", type: "virtualbox"
 
+	# Persistant storage
+	config.persistent_storage.enabled = true
+	config.persistent_storage.location = "persistant.vmdk"
+	config.persistent_storage.size = 10000
+	config.persistent_storage.mountname = 'data'
+	config.persistent_storage.use_lvm = true
+	config.persistent_storage.filesystem = 'ext4'
+	config.persistent_storage.mountpoint = '/persistant'
+
     # Provider-specific configuration so you can fine-tune various
     # backing providers for Vagrant. These expose provider-specific options.
     # Example for VirtualBox:
@@ -75,6 +84,7 @@ Vagrant.configure("2") do |config|
     # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
     # documentation for more information about their specific syntax and use.
     config.vm.provision "shell", inline: <<-SHELL
+	# download and configure sift installer
     cd /tmp
     curl -Lo /tmp/sift-cli-linux https://github.com/sans-dfir/sift-cli/releases/download/v1.7.1/sift-cli-linux
     curl -Lo /tmp/sift-cli-linux.sha256.asc https://github.com/sans-dfir/sift-cli/releases/download/v1.7.1/sift-cli-linux.sha256.asc
@@ -83,6 +93,7 @@ Vagrant.configure("2") do |config|
     shasum -a 256 -c sift-cli-linux.sha256.asc
     mv /tmp/sift-cli-linux /usr/local/bin/sift
     chmod 755 /usr/local/bin/sift
+	# run sift installer
     /usr/local/bin/sift install --mode=packages-only
     SHELL
 end
