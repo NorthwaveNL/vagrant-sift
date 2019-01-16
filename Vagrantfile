@@ -54,10 +54,10 @@ Vagrant.configure("2") do |config|
 	config.persistent_storage.enabled = true
 	config.persistent_storage.location = "persistant.vmdk"
 	config.persistent_storage.size = 10000
-	config.persistent_storage.mountname = 'data'
-	config.persistent_storage.use_lvm = true
+	config.persistent_storage.mountname = 'persistant'
 	config.persistent_storage.filesystem = 'ext4'
 	config.persistent_storage.mountpoint = '/persistant'
+	config.persistent_storage.diskdevice = '/dev/sdc'
 
     # Provider-specific configuration so you can fine-tune various
     # backing providers for Vagrant. These expose provider-specific options.
